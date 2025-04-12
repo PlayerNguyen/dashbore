@@ -7,8 +7,7 @@ import type {
   RolePermission,
   User,
   UserRole,
-} from "@generated/prisma";
-import { HTTPException } from "hono/http-exception";
+} from "@generated/prisma/index";
 
 /**
  * The user with roles and permissions when
@@ -29,29 +28,6 @@ export type NormalizedUser = User & {
   permissions: string[];
   roles: string[];
 };
-
-/**
- * Normalize the user with roles and permissions.
- *
- * @param user - The user with roles and permissions
- * @returns The normalized user
- */
-async function normalizeUser(user: UserWithRoles): Promise<NormalizedUser> {
-  const userRoles = user.roles;
-  // Flatten the roles with roleName to the set
-  const userRolesSet = userRoles.map((role) => role.role.name);
-
-  // Flatten the permissions
-  const userPermissions = userRoles.flatMap((role) =>
-    role.role.permissions.map((permission) => permission.permission.name)
-  );
-
-  return {
-    ...user,
-    permissions: userPermissions,
-    roles: userRolesSet,
-  };
-}
 
 /**
  * User service
@@ -87,19 +63,13 @@ const UserService = {
       },
     });
 
-    if (!user) {
-      throw new HTTPException(404, {
-        message: `User with id ${id} not found.`,
-      });
-    }
-
-    return await normalizeUser(user);
+    return await user;
   },
 
   /**
    * Check if the user has the permissions.
    *
-   * @param user - The user object to check permissions for
+   * @param user - The normalized user object to check permissions for
    * @param permissions - The permissions to check as an array of strings
    * @returns True if the user has the permissions or if the user has all permissions, false otherwise
    */

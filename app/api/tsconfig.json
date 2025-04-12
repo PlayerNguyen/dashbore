@@ -28,8 +28,8 @@
     // Aliases and default base
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@generated/*": ["../generated/*"]
+      "@/*": ["src/*"],
+      "@generated/prisma/*": ["node_modules/.prisma/client/*"]
     }
   }
 }

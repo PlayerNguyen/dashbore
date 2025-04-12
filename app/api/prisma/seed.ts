@@ -63,6 +63,26 @@ async function createAdminUser() {
   console.log("Admin user created");
 }
 
+async function createUser() {
+  // Don't create user in production
+  if (process.env.NODE_ENV === "production") {
+    console.log("Skipping user creation in production");
+    return;
+  }
+
+  const user = await prisma.user.upsert({
+    where: { email: "user@test.com" },
+    update: {},
+    create: {
+      email: "user@test.com",
+      password: Bun.password.hashSync("user"),
+    },
+  });
+
+  console.log("User created");
+  return user;
+}
+
 /**
  * Main function
  */
@@ -70,6 +90,7 @@ async function main() {
   await PermissionService.bootstrap();
   await createAdminRole();
   await createAdminUser();
+  await createUser();
 }
 
 /**

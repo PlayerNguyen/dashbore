@@ -1,0 +1,9 @@
+[test]
+
+# to require 70% line-level and function-level coverage
+coverageThreshold = 0.7
+
+# Skip test files
+coverageSkipTestFiles = true 
+
+root = "tests"

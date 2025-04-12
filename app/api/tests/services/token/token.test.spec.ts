@@ -1,5 +1,5 @@
 import TokenService from "@/services/token/token.service";
-import type { User } from "@generated/prisma";
+import type { User } from "@generated/prisma/index";
 import { describe, expect, it } from "bun:test";
 
 describe("TokenService", () => {
