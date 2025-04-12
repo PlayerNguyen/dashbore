@@ -1,0 +1,36 @@
+{
+  "name": "dashbore-api",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "dev:debug": "bun run --inspect src/index.ts",
+    "build": "bun build src/index.ts --outfile dist/index.js --target=bun",
+    "start": "bun run dist/index.js",
+    "postinstall": "prisma generate",
+    "test": "NODE_ENV=test bun test --preload ./tests/preload.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/jsonwebtoken": "^9.0.9"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@hono/swagger-ui": "^0.5.1",
+    "@hono/zod-validator": "^0.4.3",
+    "@prisma/client": "^6.6.0",
+    "colorette": "^2.0.20",
+    "hono": "^4.7.6",
+    "hono-openapi": "^0.4.6",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.6.0",
+    "zod": "^3.24.2",
+    "zod-openapi": "^4.2.4"
+  },
+  "prisma": {
+    "seed": "bun run ./prisma/seed.ts"
+  }
+}

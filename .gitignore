@@ -1,0 +1,10 @@
+
+.data
+.env
+
+# Prisma
+node_modules/
+.prisma/
+@prisma/
+
+app/generated/prisma

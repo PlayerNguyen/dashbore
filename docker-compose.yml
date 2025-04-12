@@ -1,0 +1,27 @@
+services:
+  # Database and adminer
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dashbore
+      MYSQL_USER: dashbore
+      MYSQL_PASSWORD: dashbore
+    ports:
+      - 3306:3306
+    volumes:
+      - .config/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - .data/mysql:/var/lib/mysql
+    networks:
+      - dashbore-network
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - 8080:8080
+    networks:
+      - dashbore-network
+
+networks:
+  dashbore-network:
+    driver: bridge
