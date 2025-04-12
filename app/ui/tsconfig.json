@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // Environment setup & latest features
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
@@ -25,12 +25,11 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
 
-    // Aliases and default base
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@generated/prisma/*": ["node_modules/.prisma/client/*"],
+      "@/*": ["./src/*"],
       "@common/*": ["./node_modules/dashbore-common/src/*"]
     }
-  }
+  },
+  "include": ["src"]
 }

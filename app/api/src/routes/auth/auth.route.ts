@@ -5,9 +5,9 @@ import AuthMiddleware from "@/middleware/auth.middleware";
 import AuthService from "@/services/auth/auth.service";
 import TokenService from "@/services/token/token.service";
 import type { NormalizedUser } from "@/services/user/user.service";
+import { AuthValidation } from "@common/index";
 import { zValidator } from "@hono/zod-validator";
 import type { z } from "zod";
-import AuthValidation from "./validation";
 
 /**
  * Auth route
