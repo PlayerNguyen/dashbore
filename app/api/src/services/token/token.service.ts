@@ -1,4 +1,4 @@
-import type { User } from "@generated/prisma";
+import type { User } from "@generated/prisma/index";
 import { HTTPException } from "hono/http-exception";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 

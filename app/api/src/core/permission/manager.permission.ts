@@ -1,5 +1,5 @@
 import getPrismaClient from "@/util/prisma.util";
-import type { Permission } from "@generated/prisma";
+import type { Permission } from "@generated/prisma/index";
 
 class PermissionManager {
   private permissions: Map<string, Permission> = new Map();

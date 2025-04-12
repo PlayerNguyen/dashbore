@@ -1,4 +1,4 @@
-import type { User } from "@generated/prisma";
+import type { User } from "@generated/prisma/index";
 
 export type AppEnvironment = {
   Variables: {

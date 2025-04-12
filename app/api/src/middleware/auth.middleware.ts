@@ -1,5 +1,6 @@
 import TokenService from "@/services/token/token.service";
 import UserService from "@/services/user/user.service";
+import UserUtil from "@/util/user.util";
 import type { Context, Next } from "hono";
 import { HTTPException } from "hono/http-exception";
 
@@ -30,12 +31,7 @@ async function getUserAuthFromToken(c: Context) {
     });
   }
 
-  const token = splittedToken[1];
-  if (!token) {
-    throw new HTTPException(401, {
-      message: "Unauthorized due to missing token.",
-    });
-  }
+  const token = splittedToken[1]!;
 
   const payload = await TokenService.verifyToken(token);
 
@@ -86,9 +82,11 @@ const AuthMiddleware = {
       });
     }
 
+    const normalizedUser = await UserUtil.normalizeUser(user);
+
     if (permissions) {
       const hasPermission = await UserService.checkUserPermissions(
-        user,
+        normalizedUser,
         permissions
       );
       if (!hasPermission) {
