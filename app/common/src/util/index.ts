@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+export type RestResponse<T> = {
+  success: boolean;
+  data: T;
+};
+
 const createResponseSchema = (schema: z.ZodSchema) => {
   return z.object({
     success: z.boolean().default(true),

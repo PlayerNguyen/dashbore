@@ -3,14 +3,18 @@ import RightToLeftGroup from "@/components/RightToLeftGroup";
 import { AuthValidation } from "@common/index";
 import { Button, Stack, TextInput } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
+import { useLocalStorage } from "@mantine/hooks";
 import clsx from "clsx";
 import { DoorOpen } from "lucide-react";
 import toast from "react-hot-toast";
 import { z } from "zod";
 
 export default function LoginBoxContent() {
-  const { mutateAsync: loginAsync } = useAuthLogin();
-
+  /**
+   * Hooks and constants
+   */
+  const { mutateAsync: loginAsync, isPending } = useAuthLogin();
+  const [, setCurrentTokenValue] = useLocalStorage({ key: "token" });
   const form = useForm<z.infer<typeof AuthValidation.LoginSchema>>({
     initialValues: {
       email: "",
@@ -19,12 +23,15 @@ export default function LoginBoxContent() {
     validate: zodResolver(AuthValidation.LoginSchema),
   });
 
+  /**
+   *  Methods
+   */
   const handleSubmit = async (
     values: z.infer<typeof AuthValidation.LoginSchema>
   ) => {
-    const response = await loginAsync(values, {
+    await loginAsync(values, {
       onSuccess: (data) => {
-        localStorage.setItem("token", data.data.token);
+        setCurrentTokenValue(data.data.token);
         toast.success("Login successful");
       },
       onError: (error) => {
@@ -58,6 +65,7 @@ export default function LoginBoxContent() {
             leftSection={<DoorOpen size={"14"} />}
             size={"compact-sm"}
             type="submit"
+            loading={isPending}
           >
             Login
           </Button>

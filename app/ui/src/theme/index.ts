@@ -11,6 +11,7 @@ const theme = createTheme({
   colors: {
     deepGreen: generateColors("#2c8a77"),
   },
+  fontFamily: "'Inter', san-serif",
 });
 
 export default theme;

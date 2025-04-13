@@ -31,7 +31,7 @@ export default function LoginBoxHeader() {
       >
         Dashbore
       </Title>
-      <Text fw={"bold"}>{generateGreetingLore()}</Text>
+      <Text>{generateGreetingLore()}</Text>
     </Flex>
   );
 }

@@ -1,5 +1,5 @@
 import { AuthValidation, CommonErrorResponse } from "@common/index";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { z } from "zod";
 import authApi from "../auth.api";
@@ -19,4 +19,11 @@ export const useAuthLogin = () =>
   >({
     mutationFn: authApi.login,
     mutationKey: ["auth", "login"],
+  });
+
+export const useAuthWhoAmIQuery = (enabled?: boolean) =>
+  useQuery({
+    queryKey: ["auth", "whoami"],
+    queryFn: authApi.whoami,
+    enabled,
   });
