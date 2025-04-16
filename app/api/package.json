@@ -9,13 +9,14 @@
     "build": "bun build src/index.ts --outfile dist/index.js --target=bun",
     "start": "bun run dist/index.js",
     "postinstall": "prisma generate",
-    "test": "NODE_ENV=test bun test --preload ./tests/preload.ts",
+    "test": "cross-env NODE_ENV=test bun run migrate && bun run seed && bun test --preload ./tests/preload.ts",
     "seed": "prisma db seed",
     "migrate": "prisma migrate dev"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/jsonwebtoken": "^9.0.9"
+    "@types/jsonwebtoken": "^9.0.9",
+    "cross-env": "^7.0.3"
   },
   "peerDependencies": {
     "typescript": "^5"
