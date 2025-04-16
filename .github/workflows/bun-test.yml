@@ -44,6 +44,10 @@ jobs:
             echo "Waiting for MySQL..."
             sleep 3
           done
+
+      - name: Execute Prisma Migrate
+        run: bun run migrate
+
       - name: Seed the database
         run: bun run seed
 

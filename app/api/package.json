@@ -4,13 +4,14 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "prisma migrate dev && bun run --watch src/index.ts",
+    "dev": "bun run migrate && bun run --watch src/index.ts",
     "dev:debug": "bun run --inspect src/index.ts",
     "build": "bun build src/index.ts --outfile dist/index.js --target=bun",
     "start": "bun run dist/index.js",
     "postinstall": "prisma generate",
     "test": "NODE_ENV=test bun test --preload ./tests/preload.ts",
-    "seed": "prisma db seed"
+    "seed": "prisma db seed",
+    "migrate": "prisma migrate dev"
   },
   "devDependencies": {
     "@types/bun": "latest",

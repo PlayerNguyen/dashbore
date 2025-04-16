@@ -9,6 +9,7 @@
     "dev-ui": "cd app/ui && bun run dev",
     "dev": "concurrently \"bun run dev-*\"",
     "seed": "cd app/api && bun run seed",
+    "migrate": "cd app/api && bun run migrate",
     "build-ui": "cd app/ui && bun run build",
     "build-api": "cd app/api && bun run build",
     "build": "concurrently \"bun run build-*\"",
