@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "zod": "^3.24.2"
+  },
+  "name": "dashbore-common",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "postinstall": "bun link"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

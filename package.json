@@ -1,0 +1,23 @@
+{
+  "name": "dashbore",
+  "scripts": {
+    "install-api": "cd app/api && bun install",
+    "install-ui": "cd app/ui && bun install",
+    "install-common": "cd app/common && bun install",
+    "install": "bun run install-common && concurrently \"bun run install-*\"",
+    "dev-api": "cd app/api && bun run dev",
+    "dev-ui": "cd app/ui && bun run dev",
+    "dev": "concurrently \"bun run dev-*\"",
+    "seed": "cd app/api && bun run seed",
+    "migrate": "cd app/api && bun run migrate",
+    "build-ui": "cd app/ui && bun run build",
+    "build-api": "cd app/api && bun run build",
+    "build": "concurrently \"bun run build-*\"",
+    "test-api": "cd app/api && bun run test",
+    "test-ui": "cd app/ui && bun run test",
+    "test": "concurrently --raw \"bun run test-* --coverage\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

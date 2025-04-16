@@ -7,7 +7,8 @@ import authRoute from "./routes/auth/auth.route";
 import userRoute from "./routes/users/users.route";
 
 import { swaggerUI as useSwagger } from "@hono/swagger-ui";
-import { logger } from "hono/logger";
+import { cors as useCors } from "hono/cors";
+import { logger as useLogger } from "hono/logger";
 import ErrorMiddleware from "./middleware/error.middleware";
 
 /**
@@ -21,19 +22,27 @@ await PermissionService.bootstrap();
  */
 const app = appFactory
   .createApp()
-  .use(logger())
+  .use(useLogger())
+  .use(
+    useCors({
+      origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+      allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowHeaders: ["Content-Type", "Authorization"],
+      exposeHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+      maxAge: 600,
+    })
+  )
   .route("/users", userRoute)
   .route("/auth", authRoute);
 
 /**
  * Use the openAPI middleware to generate the OpenAPI specification for the application
- */
-app.get("/openapi", useOpenApi(app));
-
-/**
  * Use the swagger UI middleware to generate the swagger UI for the application
  */
-app.get("/swagger", useSwagger({ url: "/openapi" }));
+app
+  .get("/openapi", useOpenApi(app))
+  .get("/swagger", useSwagger({ url: "/openapi" }));
 
 /**
  * Use the error handling middleware to handle errors for the application

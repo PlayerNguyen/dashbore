@@ -23,14 +23,6 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false,
-
-    // Aliases and default base
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "@generated/prisma/*": ["node_modules/.prisma/client/*"],
-      "@common/*": ["./node_modules/dashbore-common/src/*"]
-    }
+    "noPropertyAccessFromIndexSignature": false
   }
 }

@@ -7,7 +7,11 @@ import { HTTPException } from "hono/http-exception";
  * @returns The error handling middleware
  */
 const useErrorHandling = () => (err: Error, c: Context) => {
-  console.error(err);
+  if (Bun.env.NODE_ENV === "test") {
+    console.warn(`[Error::Testing] ${err.message}`);
+  } else {
+    console.error(err);
+  }
 
   const status = err instanceof HTTPException ? err.status : 500;
 
