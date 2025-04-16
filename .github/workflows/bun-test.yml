@@ -44,6 +44,8 @@ jobs:
             echo "Waiting for MySQL..."
             sleep 3
           done
+      - name: Seed the database
+        run: bun run seed
 
       - name: Run tests
-        run: bun test
+        run: bun run test
