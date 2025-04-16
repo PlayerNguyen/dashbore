@@ -5,7 +5,7 @@ import { gray, green } from "colorette";
 async function migrateTestPrisma() {
   console.log(`Migrating test prisma...`);
   // Generate a prisma dev client.
-  let { stdout } = Bun.spawnSync(["bunx", "prisma", "generate"], {
+  let { stdout } = Bun.spawnSync(["bun", "prisma", "generate"], {
     env: { NODE_ENV: "test" },
   });
 
@@ -13,12 +13,9 @@ async function migrateTestPrisma() {
 
   // Deploy migrations
   console.log(`Deploying migrations...`);
-  let { stdout: deployStdout } = Bun.spawnSync(
-    ["bunx", "prisma", "migrate", "deploy"],
-    {
-      env: { NODE_ENV: "test", DATABASE_URL: process.env.DATABASE_URL },
-    }
-  );
+  let { stdout: deployStdout } = Bun.spawnSync(["bun", "run", "migrate"], {
+    env: { NODE_ENV: "test", DATABASE_URL: process.env.DATABASE_URL },
+  });
 
   console.log(gray(deployStdout.toString()));
 
