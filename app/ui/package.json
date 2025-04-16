@@ -22,6 +22,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "dashbore-common": "link:dashbore-common",
     "@mantine/colors-generator": "^7.17.4",
     "@mantine/core": "^7.17.4",
     "@mantine/form": "^7.17.4",

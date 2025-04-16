@@ -4,12 +4,13 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
+    "dev": "prisma migrate dev && bun run --watch src/index.ts",
     "dev:debug": "bun run --inspect src/index.ts",
     "build": "bun build src/index.ts --outfile dist/index.js --target=bun",
     "start": "bun run dist/index.js",
     "postinstall": "prisma generate",
-    "test": "NODE_ENV=test bun test --preload ./tests/preload.ts"
+    "test": "NODE_ENV=test bun test --preload ./tests/preload.ts",
+    "seed": "prisma db seed"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -19,6 +20,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "dashbore-common": "link:dashbore-common",
     "@hono/swagger-ui": "^0.5.1",
     "@hono/zod-validator": "^0.4.3",
     "@prisma/client": "^6.6.0",

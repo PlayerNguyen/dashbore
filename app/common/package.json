@@ -6,6 +6,9 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "postinstall": "bun link"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
