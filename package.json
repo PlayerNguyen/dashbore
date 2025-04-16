@@ -4,7 +4,7 @@
     "install-api": "cd app/api && bun install",
     "install-ui": "cd app/ui && bun install",
     "install-common": "cd app/common && bun install",
-    "install": "concurrently \"bun run install-*\"",
+    "install": "bun run install-common && concurrently \"bun run install-*\"",
     "dev-api": "cd app/api && bun run dev",
     "dev-ui": "cd app/ui && bun run dev",
     "dev": "concurrently \"bun run dev-*\"",
