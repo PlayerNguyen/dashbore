@@ -13,10 +13,7 @@ const DEFAULT_TTL = process.env.REDIS_DEFAULT_TTL || 30 * 1000;
  * @returns the redis client for application
  */
 function getRedisClient() {
-  if (!defaultRedisClient) {
-    defaultRedisClient = RedisFactory.createRedisClient();
-  }
-  return defaultRedisClient;
+  return RedisFactory.createRedisClient({ idleTimeout: 3000 });
 }
 
 /**
@@ -61,11 +58,15 @@ export type CacheItem = {
  */
 async function getOrSetCacheItem<T>(params: CacheItem, value: T, ttl?: number) {
   const cacheKey = buildCacheKey(params.base, params.params);
+
+  console.info(`[Cache] GET ${cacheKey}`);
   const currentCacheValue = await getRedisClient().get(cacheKey);
   if (currentCacheValue) {
+    console.info(`[Cache] Available ${cacheKey}`);
     return JSON.parse(currentCacheValue) as T;
   }
 
+  console.info(`[Cache] SET ${cacheKey}`);
   await getRedisClient().set(cacheKey, JSON.stringify(value));
   await getRedisClient().expire(cacheKey, ttl || Number(DEFAULT_TTL));
   return value;

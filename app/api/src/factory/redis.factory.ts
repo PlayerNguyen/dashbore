@@ -9,14 +9,14 @@ const REDIS_URL = process.env.REDIS_URL || "";
  *
  * @returns a new redis client
  */
-const createRedisClient = () => {
+const createRedisClient = (options?: Bun.RedisOptions) => {
   if (semver.satisfies(Bun.version, "<1.2.9")) {
     throw new Error(
       "Bun version is lower than 1.2.9, please upgrade Bun to use Redis"
     );
   }
 
-  return new RedisClient(REDIS_URL);
+  return new RedisClient(REDIS_URL, options);
 };
 
 /**
