@@ -1,4 +1,13 @@
 services:
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - .data/redis-data:/data
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    restart: unless-stopped
+
   # Database and adminer
   db:
     image: mysql:8
