@@ -5,6 +5,7 @@ import CorePermissionKey from "@/core/permission/core.permission";
 import appFactory from "@/factory/app.factory";
 import PaginationUtil from "@/util/pagination.util";
 import getPrismaClient from "@/util/prisma.util";
+import SortUtil from "@/util/sort.util";
 import { UsersValidation } from "@common/users.validation";
 
 /**
@@ -22,11 +23,14 @@ const userRoute = appFactory
       .buildMiddleware(),
     async (c) => {
       const paginationMetadata = PaginationUtil.usePagination(c);
+      const sortMetadata = SortUtil.useSort(c, SortUtil.DefaultSortByCreatedAt);
 
       const [userCount, users] = await Promise.all([
         RedisCache.getOrSetCacheItem(
           { base: "users", params: { count: "id" } },
-          await getPrismaClient().user.count()
+          await getPrismaClient().user.count({
+            orderBy: sortMetadata,
+          })
         ),
         RedisCache.getOrSetCacheItem(
           {
@@ -36,6 +40,7 @@ const userRoute = appFactory
           await getPrismaClient().user.findMany({
             skip: paginationMetadata.offset,
             take: paginationMetadata.limit,
+            orderBy: sortMetadata,
           })
         ),
       ]);
