@@ -1,4 +1,4 @@
-import { createOpenApiPathBuilder } from "@/builder/openapi.builder";
+import { createOpenApiPathBuilder } from "@/builder/openapi/openapi.builder";
 import appFactory from "@/factory/app.factory";
 import responseFactory from "@/factory/response.factory";
 import AuthMiddleware from "@/middleware/auth.middleware";
