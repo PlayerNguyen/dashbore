@@ -3,6 +3,7 @@ import qs, { type ParsedQs } from "qs";
 
 type SqlSortKey = "asc" | "desc";
 export type SortRecordType = Record<string, SqlSortKey>;
+export type SortMetadata = SortRecordType | SortRecordType[];
 
 function validateSortValue(sortItem: ParsedQs) {
   const primaryValue = Object.values(sortItem)[0];
@@ -35,10 +36,7 @@ function validateSortValue(sortItem: ParsedQs) {
  * ```
  *
  */
-function useSort(
-  c: Context,
-  defaultOrderBy: SortRecordType | SortRecordType[]
-): SortRecordType | SortRecordType[] {
+function useSort(c: Context, defaultOrderBy: SortMetadata): SortMetadata {
   const sort = c.req.queries("sort")!;
 
   // If no sort is passed into the system
@@ -69,7 +67,7 @@ function useSort(
   return currentSortObjects;
 }
 
-const DefaultSortByCreatedAt: SortRecordType | SortRecordType[] = [
+const DefaultSortByCreatedAt: SortMetadata = [
   { id: "desc" },
   { createdAt: "desc" },
 ];
