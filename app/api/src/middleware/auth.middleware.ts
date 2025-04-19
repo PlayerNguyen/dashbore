@@ -72,9 +72,7 @@ const AuthMiddleware = {
     const payload = await getUserAuthFromToken(c);
 
     // Select the user without the password
-    const user = await UserService.getUserById(payload.id, {
-      password: true,
-    });
+    const user = await UserService.getUserById(payload.id);
 
     if (!user) {
       throw new HTTPException(401, {

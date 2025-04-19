@@ -24,7 +24,7 @@ export type UserWithRoles = User & {
 /**
  * The normalized user with permissions and roles.
  */
-export type NormalizedUser = User & {
+export type NormalizedUser = User & { 
   permissions: string[];
   roles: string[];
 };
