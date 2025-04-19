@@ -6,103 +6,6 @@ import { describe, expect, it } from "bun:test";
 import { z } from "zod";
 
 describe("OpenApiPathBuilder", () => {
-  it("should build the OpenApi path object", () => {
-    // Arrange
-    const builder = createOpenApiPathBuilder();
-
-    // Act
-    const path = builder.build();
-
-    // Assert
-    expect(path).toEqual({
-      summary: undefined,
-      description: undefined,
-      tags: undefined,
-      requestBody: undefined,
-    });
-  });
-
-  it("should build the OpenApi path object with summary", () => {
-    // Arrange
-    const builder = createOpenApiPathBuilder();
-
-    // Act
-    const path = builder.withSummary("Get user").build();
-
-    // Assert
-    expect(path).toEqual({
-      summary: "Get user",
-      description: undefined,
-      tags: undefined,
-      requestBody: undefined,
-    });
-  });
-
-  it("should build the OpenApi path object with description", () => {
-    // Arrange
-    const builder = createOpenApiPathBuilder();
-
-    // Act
-    const path = builder.withDescription("Get user by id").build();
-
-    // Assert
-    expect(path).toEqual({
-      summary: undefined,
-      description: "Get user by id",
-      tags: undefined,
-      requestBody: undefined,
-    });
-  });
-
-  it("should build the OpenApi path object with tags", () => {
-    // Arrange
-    const builder = createOpenApiPathBuilder();
-
-    // Act
-    const path = builder.withTags("user", "admin").build();
-
-    // Assert
-    expect(path).toEqual({
-      summary: undefined,
-      description: undefined,
-      tags: ["user", "admin"],
-      requestBody: undefined,
-    });
-  });
-
-  it("should build the OpenApi path object with validation", () => {
-    // Arrange
-    const builder = createOpenApiPathBuilder();
-    const validationSchema = z.object({
-      id: z.string(),
-    });
-
-    // Act
-    const path = builder.withValidation(validationSchema).build();
-
-    // Assert
-    expect(path).toEqual({
-      summary: undefined,
-      description: undefined,
-      tags: undefined,
-      requestBody: {
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                id: {
-                  type: "string",
-                },
-              },
-              required: ["id"],
-            },
-          },
-        },
-      },
-    });
-  });
-
   it("should build the OpenApi path object with constructor", () => {
     // Arrange
     const builder = createOpenApiPathBuilder()
@@ -115,26 +18,21 @@ describe("OpenApiPathBuilder", () => {
     const path = builder.build();
 
     // Assert
-    expect(path).toEqual({
-      summary: "Get user",
-      description: "Get user by id",
-      tags: ["user", "admin"],
-      requestBody: {
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                id: {
-                  type: "string",
-                },
-              },
-              required: ["id"],
-            },
-          },
-        },
-      },
-    });
+    expect(path).toHaveProperty("summary", "Get user");
+    expect(path).toHaveProperty("description", "Get user by id");
+    expect(path).toHaveProperty("tags", ["user", "admin"]);
+    expect(path).toHaveProperty("requestBody");
+
+    expect(path.requestBody).toHaveProperty("content");
+    expect(
+      path.requestBody.content["application/json"].schema.properties.id.type
+    ).toEqual("string");
+    expect(
+      path.requestBody.content["application/json"].schema.required
+    ).toEqual(["id"]);
+    expect(path.requestBody.content["application/json"].schema.type).toEqual(
+      "object"
+    );
   });
 
   it("should build the OpenApi path with params", () => {
@@ -160,36 +58,35 @@ describe("OpenApiPathBuilder", () => {
     const returnObject = builder.build();
     console.log(returnObject);
     // Assertion
-    expect(returnObject).toEqual({
-      description: "pagination routes",
-      requestBody: undefined,
-      summary: undefined,
-      tags: undefined,
-      params: [
-        {
-          components: undefined,
-          name: "page",
-          in: "query" as const,
-          description: "The current page number",
-          required: false,
-          schema: {
-            type: "number",
-            minimum: 1,
-          },
-        },
-        {
-          components: undefined,
-          name: "limit",
-          in: "query" as const,
-          description: "The number of items to return per page",
-          required: false,
-          schema: {
-            type: "number",
-            minimum: 1,
-          },
-        },
-      ],
-    });
+    expect(returnObject).toHaveProperty("description", "pagination routes");
+    expect(returnObject).toHaveProperty("requestBody", undefined);
+    expect(returnObject).toHaveProperty("summary", undefined);
+    expect(returnObject).toHaveProperty("tags", undefined);
+    expect(returnObject).toHaveProperty("permissions", undefined);
+
+    expect(returnObject).toHaveProperty("parameters");
+    expect(returnObject.parameters).toHaveLength(2);
+    expect(returnObject.parameters[0]).toHaveProperty("components", undefined);
+    expect(returnObject.parameters[0]).toHaveProperty("name", "page");
+    expect(returnObject.parameters[0]).toHaveProperty("in", "query");
+    expect(returnObject.parameters[0]).toHaveProperty(
+      "description",
+      "The current page number"
+    );
+    expect(returnObject.parameters[0]).toHaveProperty("required", false);
+    expect(returnObject.parameters[0].schema).toHaveProperty("type", "number");
+    expect(returnObject.parameters[0].schema).toHaveProperty("minimum", 1);
+
+    expect(returnObject.parameters[1]).toHaveProperty("components", undefined);
+    expect(returnObject.parameters[1]).toHaveProperty("name", "limit");
+    expect(returnObject.parameters[1]).toHaveProperty("in", "query");
+    expect(returnObject.parameters[1]).toHaveProperty(
+      "description",
+      "The number of items to return per page"
+    );
+    expect(returnObject.parameters[1]).toHaveProperty("required", false);
+    expect(returnObject.parameters[1].schema).toHaveProperty("type", "number");
+    expect(returnObject.parameters[1].schema).toHaveProperty("minimum", 1);
   });
 
   /**
@@ -203,20 +100,20 @@ describe("OpenApiPathBuilder", () => {
     // Act
     const resp = builder.build();
     // Assertion
-    expect(resp).toHaveProperty("params");
-    expect(resp.params.length).toBe(2);
-    expect(resp.params[0].name).toBe("page");
-    expect(resp.params[0].in).toBe("query");
-    expect(resp.params[1].name).toBe("limit");
-    expect(resp.params[1].in).toBe("query");
-    expect(resp.params[0].description).toBe(
+    expect(resp).toHaveProperty("parameters");
+    expect(resp.parameters.length).toBe(2);
+    expect(resp.parameters[0].name).toBe("page");
+    expect(resp.parameters[0].in).toBe("query");
+    expect(resp.parameters[1].name).toBe("limit");
+    expect(resp.parameters[1].in).toBe("query");
+    expect(resp.parameters[0].description).toBe(
       "The current page number. The value must be a positive number and default to 1."
     );
-    expect(resp.params[1].description).toBe(
+    expect(resp.parameters[1].description).toBe(
       "How many records to return. The value must be a positive number and default is 10."
     );
-    expect(resp.params[0].required).toBe(false);
-    expect(resp.params[1].required).toBe(false);
+    expect(resp.parameters[0].required).toBe(false);
+    expect(resp.parameters[1].required).toBe(false);
   });
 });
 

@@ -128,7 +128,8 @@ export interface OpenApiPathBuilder {
   withValidation(requestBody: ZodSchema): this;
 
   /**
-   * Add one or more security schemes to this endpoint.
+   * Add one or more security schemes to this endpoint. This is useful for adding authentication schemes.
+   *
    * @param securitySchemes Names of security schemes.
    * @example
    * ```
@@ -160,7 +161,22 @@ export interface OpenApiPathBuilder {
    * createOpenApiPathBuilder().withPagination();
    * ```
    */
-  withPagination(search?: PaginationSearchRecordType): this;
+  withPagination(
+    responseSchema?: ZodSchema,
+    search?: PaginationSearchRecordType
+  ): this;
+
+  /**
+   * Add the permissions requirements to this endpoint.
+   * <b>This method is optional and only required if you want to enforce permissions for this endpoint.</b>
+   * <b>NOTE:</b> If you call this, you should not call `withSecurity` for this endpoint. If you do, it will override the permissions.
+   * @param permissions The permissions required to access this endpoint.
+   * @example
+   * ```
+   * const app = app.get('/', createOpenApiPathBuilder().withPermissions(["user.read"]).buildMiddleware())
+   * ```
+   */
+  withPermissions(...permissions: string[]): this;
 
   /**
    * Finalize and return the OpenAPI path definition.

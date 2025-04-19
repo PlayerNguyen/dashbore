@@ -1,6 +1,7 @@
 import PermissionService from "@/services/permission/permission.service";
 import { beforeAll } from "bun:test";
 import { green } from "colorette";
+import TestAuthUtil from "./util/testAuth";
 
 beforeAll(async () => {
   console.log(
@@ -11,4 +12,5 @@ beforeAll(async () => {
 
   // await migrateTestPrisma();
   await PermissionService.bootstrap();
+  await TestAuthUtil.login();
 });

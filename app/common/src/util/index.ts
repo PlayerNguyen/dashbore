@@ -5,10 +5,11 @@ export type RestResponse<T> = {
   data: T;
 };
 
-const createResponseSchema = (schema: z.ZodSchema) => {
+const createResponseSchema = <T>(schema: z.ZodSchema, other?: T) => {
   return z.object({
     success: z.boolean().default(true),
     data: schema,
+    ...other,
   });
 };
 
@@ -23,4 +24,12 @@ const createErrorResponseSchema = (schema?: z.ZodSchema) => {
   });
 };
 
-export { createErrorResponseSchema, createResponseSchema };
+const createTimestamp = <T extends z.ZodRawShape>(schema: z.ZodObject<T>) => {
+  return z.object({
+    ...schema.shape,
+    createdAt: z.date().nullable(),
+    updatedAt: z.date().nullable(),
+  });
+};
+
+export { createErrorResponseSchema, createResponseSchema, createTimestamp };

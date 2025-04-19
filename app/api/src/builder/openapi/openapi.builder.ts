@@ -1,6 +1,18 @@
-import { describeRoute } from "hono-openapi";
+import AuthMiddleware from "@/middleware/auth.middleware";
+import type { MiddlewareHandler } from "hono";
+import {
+  generateRouteSpecs,
+  uniqueSymbol,
+  type DescribeRouteOptions,
+  type OpenAPIRouteHandlerConfig,
+} from "hono-openapi";
 import { resolver } from "hono-openapi/zod";
-import { z, type ZodSchema } from "zod";
+import { HTTPException } from "hono/http-exception";
+import type {
+  ClientErrorStatusCode,
+  ServerErrorStatusCode,
+} from "hono/utils/http-status";
+import { z, ZodType, type ZodSchema } from "zod";
 import { createSchema } from "zod-openapi";
 import type {
   OpenApiParameterBuilder,
@@ -84,6 +96,8 @@ class OpenApiPathBuilderImpl implements OpenApiPathBuilder {
   private requestBody?: unknown;
   private security?: string[];
   private params?: OpenApiParameterBuilder[];
+  private permissions?: string[];
+  private responses: Record<string, any> = {};
 
   public withSummary(summary: string) {
     this.summary = summary;
@@ -114,12 +128,48 @@ class OpenApiPathBuilderImpl implements OpenApiPathBuilder {
     return this;
   }
 
+  public withPermissions(...permissions: string[]) {
+    this.permissions = permissions;
+
+    const listItems = permissions.map((p) => `<li>${p}</li>`).join("");
+    const descriptionContent = `
+    <br /><br />
+    <b>The following permissions are required for this operation:</b>
+    <ul>${listItems}</ul>
+  `;
+
+    this.description = this.description
+      ? `${this.description} ${descriptionContent}`
+      : descriptionContent;
+
+    // Set the response 401 if the user is not authorized or the token is missing/invalidate
+    this.responses[401] = {
+      description: `Unauthorized or invalid token`,
+      content: {
+        "application/json": createSchema(
+          z.object({
+            success: z.boolean().default(false),
+            error: z.object({
+              message: z.string(),
+              stack: z.string().nullable(),
+            }),
+          })
+        ),
+      },
+    };
+
+    return this.withSecurity(["bearerAuth"]);
+  }
+
   public withParams(...params: OpenApiParameterBuilder[]) {
     this.params = params;
     return this;
   }
 
-  public withPagination(search?: PaginationSearchRecordType) {
+  public withPagination(
+    responseSchema?: ZodType,
+    search?: PaginationSearchRecordType
+  ) {
     // Add default pagination like `page` or `limit` if not provided in params
     this.params = this.params || [];
     if (!this.params.some((param) => param.getName() === "page")) {
@@ -127,7 +177,9 @@ class OpenApiPathBuilderImpl implements OpenApiPathBuilder {
         createOpenApiParameterBuilder()
           .withName("page")
           .withType("query")
-          .withDescription("The current page number. The value must be a positive number and default to 1.")
+          .withDescription(
+            "The current page number. The value must be a positive number and default to 1."
+          )
           .withRequired(false)
           .withSchema(z.number().min(1).default(1))
       );
@@ -136,7 +188,9 @@ class OpenApiPathBuilderImpl implements OpenApiPathBuilder {
       this.params.push(
         createOpenApiParameterBuilder()
           .withName("limit")
-          .withDescription("How many records to return. The value must be a positive number and default is 10.")
+          .withDescription(
+            "How many records to return. The value must be a positive number and default is 10."
+          )
           .withRequired(false)
           .withRequired(false)
           .withType("query")
@@ -156,6 +210,24 @@ class OpenApiPathBuilderImpl implements OpenApiPathBuilder {
       );
     }
 
+    // Inject the response if pagination
+    // is use
+    this.responses[200] = {
+      description: "The returned data as an array",
+      content: {
+        "application/json": createSchema(
+          z.object({
+            data: z.array(responseSchema || z.object({})),
+            metadata: z.object({
+              total: z.number(),
+              page: z.number(),
+              limit: z.number(),
+            }),
+          })
+        ),
+      },
+    };
+
     return this;
   }
 
@@ -165,9 +237,11 @@ class OpenApiPathBuilderImpl implements OpenApiPathBuilder {
       description: this.description,
       tags: this.tags,
       requestBody: this.requestBody,
-      params: this.params
+      parameters: this.params
         ? this.params.map((param) => param.build())
         : undefined,
+      permissions: this.permissions,
+      responses: this.responses,
     };
 
     if (this.security) {
@@ -229,6 +303,84 @@ function createOpenApiPathBuilder() {
  */
 function createOpenApiParameterBuilder() {
   return new OpenApiParameterBuilderImpl();
+}
+
+/**
+ * Describe a route with OpenAPI specs.
+ * @param specs Options for describing a route
+ * @returns Middleware handler
+ */
+export function describeRoute(specs: DescribeRouteOptions): MiddlewareHandler {
+  const { validateResponse, permissions, ...docs } = specs;
+
+  const middleware: MiddlewareHandler = async (c, next) => {
+    if (permissions !== undefined) {
+      // Trigger the auth middleware
+      await AuthMiddleware.useStrictAuth(permissions)(c, next);
+    } else {
+      await next();
+
+      if (validateResponse && specs.responses) {
+        const status = c.res.status;
+        const contentType = c.res.headers.get("content-type");
+
+        if (status && contentType) {
+          const response = specs.responses[status];
+          if (response && "content" in response && response.content) {
+            const splitedContentType = contentType.split(";")[0];
+            const content = response.content[splitedContentType];
+
+            if (content?.schema && "validator" in content.schema) {
+              try {
+                let data: unknown;
+                const clonedRes = c.res.clone();
+                if (splitedContentType === "application/json") {
+                  data = await clonedRes.json();
+                } else if (splitedContentType === "text/plain") {
+                  data = await clonedRes.text();
+                }
+                if (!data) throw new Error("No data to validate!");
+                await content.schema.validator(data);
+              } catch (error) {
+                let httpExceptionOptions: {
+                  status: ClientErrorStatusCode | ServerErrorStatusCode;
+                  message: string;
+                } = {
+                  status: 500,
+                  message: "Response validation failed!",
+                };
+
+                if (typeof validateResponse === "object") {
+                  httpExceptionOptions = {
+                    ...httpExceptionOptions,
+                    ...validateResponse,
+                  };
+                }
+
+                throw new HTTPException(httpExceptionOptions.status, {
+                  message: httpExceptionOptions.message,
+                  cause: error,
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+
+  return Object.assign(middleware, {
+    [uniqueSymbol]: {
+      resolver: async (
+        config: OpenAPIRouteHandlerConfig,
+        defaultOptions?: DescribeRouteOptions
+      ) => {
+        const path = await generateRouteSpecs(config, docs, defaultOptions);
+        console.log(path);
+        return path;
+      },
+    },
+  });
 }
 
 export { createOpenApiParameterBuilder, createOpenApiPathBuilder };

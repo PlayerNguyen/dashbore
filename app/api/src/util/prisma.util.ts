@@ -9,7 +9,13 @@ let prismaClient: PrismaClient | undefined;
  */
 export default function getPrismaClient() {
   if (!prismaClient) {
-    prismaClient = new PrismaClient();
+    prismaClient = new PrismaClient({
+      omit: {
+        user: {
+          password: true,
+        },
+      },
+    }) as PrismaClient;
   }
   return prismaClient;
 }

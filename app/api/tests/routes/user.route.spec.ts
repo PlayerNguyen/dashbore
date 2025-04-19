@@ -1,6 +1,7 @@
 import app from "@/app";
 import { describe, expect, it } from "bun:test";
 import { testClient } from "hono/testing";
+import TestContext from "tests/test.context.spec";
 
 /**
  *
@@ -12,15 +13,30 @@ describe("User Route", () => {
   /**
    * Test for the get users route
    */
-  it("should return a success response", async () => {
+  it("should reject if user not logged in", async () => {
     // Act
     const response = await client.users.$get("/");
 
     // Assert
+    expect(response.status).toBe(401);
+  });
+
+  /**
+   * Test for the get users route
+   */
+  it("should return a list of users", async () => {
+    // Arrange
+    console.log(TestContext.getTestContext());
+    const token = TestContext.getTestContext().getToken();
+    // Act
+    const response = await client.users.$get("/", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const responseJson = await response.json();
+    // Assert
     expect(response.status).toBe(200);
-    const json = await response.json();
-    expect(json).toHaveProperty("success", true);
-    expect(json).toHaveProperty("data");
-    expect(json.data).toBeInstanceOf(Array);
+    expect(responseJson.data).toBeArray();
+    expect(responseJson.data.length).toBeGreaterThan(0);
+    expect(responseJson).toHaveProperty("metadata");
   });
 });

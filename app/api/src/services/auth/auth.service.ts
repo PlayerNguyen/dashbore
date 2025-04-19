@@ -11,6 +11,7 @@ const AuthService = {
   login: async (email: string, password: string) => {
     const user = await getPrismaClient().user.findUnique({
       where: { email },
+      omit: { password: false },
     });
 
     if (!user) {
