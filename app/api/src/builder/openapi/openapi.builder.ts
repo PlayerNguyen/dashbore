@@ -376,7 +376,6 @@ export function describeRoute(specs: DescribeRouteOptions): MiddlewareHandler {
         defaultOptions?: DescribeRouteOptions
       ) => {
         const path = await generateRouteSpecs(config, docs, defaultOptions);
-        console.log(path);
         return path;
       },
     },

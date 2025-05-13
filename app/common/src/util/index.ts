@@ -24,6 +24,12 @@ const createErrorResponseSchema = (schema?: z.ZodSchema) => {
   });
 };
 
+/**
+ * Retrieves a schema with timestamp fields included.
+ *
+ * @param schema a schema for included timestamp fields.
+ * @returns a timestamp included schema
+ */
 const createTimestamp = <T extends z.ZodRawShape>(schema: z.ZodObject<T>) => {
   return z.object({
     ...schema.shape,

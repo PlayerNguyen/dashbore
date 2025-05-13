@@ -17,7 +17,7 @@ export type PaginationMetadataType = {
   total: number;
 };
 
-export type PaginationResponse<T> = RestResponse<T> & {
+export type PaginationResponse<T> = RestResponse<T[]> & {
   metadata: { pagination: PaginationMetadataType };
 };
 

@@ -1,5 +1,4 @@
-import DashboardLayout from "@/pages/DasboardLayout";
-import { useAuthStore } from "@/store/useAuthStore";
+import DashboardContent from "@/components/DashboardContent";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/dashboard/")({
@@ -7,11 +6,12 @@ export const Route = createFileRoute("/dashboard/")({
 });
 
 function RouteComponent() {
-  const { isAuthenticated } = useAuthStore();
-
-  if (!isAuthenticated) {
-    return <>Not logged in</>;
-  }
-
-  return <DashboardLayout />;
+  return (
+    <DashboardContent
+      title="Overview"
+      subtitle="This is the dashboard overview page."
+    >
+      <p>hello world</p>
+    </DashboardContent>
+  );
 }

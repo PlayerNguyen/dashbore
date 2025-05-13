@@ -2,6 +2,7 @@ import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
+import "mantine-react-table/styles.css";
 import { Toaster } from "react-hot-toast";
 import "./app.css";
 import theme from "./theme";

@@ -4,7 +4,7 @@ import LoginBox from "@/pages/Unauthenticated/components/LoginBox";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Center } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { createRootRoute, redirect } from "@tanstack/react-router";
+import { createRootRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 export const Route = createRootRoute({
@@ -17,14 +17,12 @@ function RootComponent() {
   const { data, isPending, isError } = useAuthWhoAmIQuery(
     currentTokenValue !== null
   );
-  console.log(`Current token: ${currentTokenValue}`);
 
   useEffect(() => {
     if (!isError && data) {
       console.log(`[Authentication] Logged as ${data.data.user.name}`);
       setAuthenticated(true);
       setUser(data.data.user);
-      redirect({ to: "/dashboard" });
     }
   }, [data, currentTokenValue, isError]);
 
