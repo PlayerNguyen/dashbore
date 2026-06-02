@@ -4,14 +4,14 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run migrate && bun run --watch src/index.ts",
     "dev:debug": "bun run --inspect src/index.ts",
     "build": "bun build src/index.ts --outfile dist/index.js --target=bun",
     "start": "bun run dist/index.js",
-    "postinstall": "prisma generate",
+    "postinstall": "bun run --filter=dashbore-database generate",
+    "dev": "bun run --filter=dashbore-database generate && bun run migrate && bun run --watch src/index.ts",
     "test": "cross-env NODE_ENV=test bun run migrate && bun run seed && bun test --preload ./tests/preload.ts",
-    "seed": "prisma db seed",
-    "migrate": "prisma migrate dev"
+    "migrate": "bun run --filter=dashbore-database migrate",
+    "seed": "bun run --filter=dashbore-database seed"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -25,18 +25,14 @@
   "dependencies": {
     "@hono/swagger-ui": "^0.5.1",
     "@hono/zod-validator": "^0.4.3",
-    "@prisma/client": "^6.6.0",
     "colorette": "^2.0.20",
     "dashbore-common": "workspace:*",
+    "dashbore-database": "workspace:*",
     "hono": "^4.7.6",
     "hono-openapi": "^0.4.6",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^6.6.0",
     "semver": "^7.7.1",
     "zod": "^3.24.2",
     "zod-openapi": "^4.2.4"
-  },
-  "prisma": {
-    "seed": "bun run ./prisma/seed.ts"
   }
 }

@@ -7,7 +7,7 @@ import type {
   RolePermission,
   User,
   UserRole,
-} from "@generated/prisma/index";
+} from "@database/index";
 
 /**
  * The user with roles and permissions when

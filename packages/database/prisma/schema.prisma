@@ -1,17 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  provider = "prisma-client"
+  output   = "../generated"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -49,11 +42,11 @@ model UserRole {
 }
 
 model RolePermission {
-  id          Int           @id @default(autoincrement())
-  roleId      Int
+  id           Int           @id @default(autoincrement())
+  roleId       Int
   permissionId Int
-  role        Role          @relation(fields: [roleId], references: [id])
-  permission  Permission    @relation(fields: [permissionId], references: [id])
+  role         Role          @relation(fields: [roleId], references: [id])
+  permission   Permission    @relation(fields: [permissionId], references: [id])
 
   @@unique([roleId, permissionId])
 }

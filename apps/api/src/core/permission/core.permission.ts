@@ -1,4 +1,4 @@
-import type { Permission } from "@generated/prisma/index";
+import type { Permission } from "@database/index";
 
 /**
  * Core permission keys that are used in the application

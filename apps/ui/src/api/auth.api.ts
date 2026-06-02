@@ -1,6 +1,6 @@
 import { AuthValidation } from "@common/index";
 import type { RestResponse } from "@common/util";
-import type { User } from "@prisma/generated/client";
+import type { User } from "@database/index";
 import { z } from "zod";
 import axiosInstance from "./axios";
 

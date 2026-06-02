@@ -29,7 +29,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@common/*": ["../../packages/common/src/*"],
-      "@prisma/generated/*": ["../api/generated/prisma/*"]
+      "@database/*": ["../../packages/database/src/*"]
     }
   },
   "include": ["src"]

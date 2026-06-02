@@ -29,8 +29,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@generated/prisma/*": ["generated/prisma/*"],
-      "@common/*": ["../../packages/common/src/*"]
+      "@common/*": ["../../packages/common/src/*"],
+      "@database/*": ["../../packages/database/src/*"]
     }
   }
 }

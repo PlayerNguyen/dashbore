@@ -1,4 +1,4 @@
-import type { User } from "@prisma/generated/index";
+import type { User } from "@database/index";
 import { create } from "zustand";
 
 export type AuthStore = {

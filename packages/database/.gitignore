@@ -1,0 +1,8 @@
+# Prisma generated client
+generated
+
+# dependencies
+node_modules
+
+# env
+.env

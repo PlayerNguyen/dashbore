@@ -12,8 +12,9 @@
     "test": "concurrently --raw \"bun run test:api\" \"bun run test:ui\"",
     "test:api": "bun run --filter=dashbore-api test",
     "test:ui": "bun run --filter=dashbore-ui test",
-    "migrate": "bun run --filter=dashbore-api migrate",
-    "seed": "bun run --filter=dashbore-api seed"
+    "migrate": "bun run --filter=dashbore-database migrate",
+    "seed": "bun run --filter=dashbore-database seed",
+    "generate": "bun run --filter=dashbore-database generate"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

@@ -7,4 +7,4 @@ node_modules/
 .prisma/
 @prisma/
 
-apps/api/generated
+# Prisma generated client is in packages/database/generated
