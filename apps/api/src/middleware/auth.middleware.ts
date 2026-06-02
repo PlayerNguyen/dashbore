@@ -1,6 +1,6 @@
-import TokenService from "@/services/token/token.service";
-import UserService from "@/services/user/user.service";
-import UserUtil from "@/util/user.util";
+import TokenService from "@business/services/token/token.service";
+import UserService from "@business/services/user/user.service";
+import UserUtil from "@business/util/user.util";
 import type { Context, Next } from "hono";
 import { HTTPException } from "hono/http-exception";
 

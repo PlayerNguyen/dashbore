@@ -1,4 +1,4 @@
-import PermissionService from "@/services/permission/permission.service";
+import PermissionService from "@business/services/permission/permission.service";
 import { beforeAll } from "bun:test";
 import { green } from "colorette";
 import TestAuthUtil from "./util/testAuth";

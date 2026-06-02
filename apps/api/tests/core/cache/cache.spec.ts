@@ -1,4 +1,4 @@
-import RedisCache from "@/core/cache/redis.cache";
+import RedisCache from "@cache/core/cache/redis.cache";
 import { afterEach, describe, expect, test } from "bun:test";
 
 describe("Redis Cache", () => {

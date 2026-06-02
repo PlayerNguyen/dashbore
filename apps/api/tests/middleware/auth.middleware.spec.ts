@@ -1,6 +1,6 @@
 import appFactory from "@/factory/app.factory";
 import AuthMiddleware from "@/middleware/auth.middleware";
-import AuthService from "@/services/auth/auth.service";
+import AuthService from "@business/services/auth/auth.service";
 import { describe, expect, it } from "bun:test";
 
 describe("AuthMiddleware", () => {

@@ -1,37 +1,14 @@
-import RedisFactory from "@/factory/redis.factory";
+import RedisFactory from "../../factory/redis.factory";
 import type { RedisClient } from "bun";
 
 let defaultRedisClient: RedisClient | undefined;
-/**
- * Default TTL should be 30 seconds
- */
+
 const DEFAULT_TTL = process.env.REDIS_DEFAULT_TTL || 30 * 1000;
 
-/**
- * A single object of redis application.
- *
- * @returns the redis client for application
- */
 function getRedisClient() {
   return RedisFactory.createRedisClient({ idleTimeout: 3000 });
 }
 
-/**
- * Builds a cache key by combining the base key and query parameters.
- *
- * @param {string} base The base key for the cache key, typically a namespace.
- * @param {Record<string, any>} params The query parameters to include in the cache key.
- *
- * @returns {string} The constructed cache key.
- *
- * @example
- * ```
- * const baseKey = "user";
- * const params = { id: 1, name: "John Doe", age: 30 };
- * const cacheKey = buildCacheKey(baseKey, params);
- * console.log(cacheKey); // Output: "user:id=1&name=John+Doe&age=30"
- * ```
- */
 function buildCacheKey(base: string, params: Record<string, any>): string {
   const query = Object.entries(params)
     .sort()
@@ -47,15 +24,6 @@ export type CacheItem = {
   params: Record<string, any>;
 };
 
-/**
- * Retrieves or sets a cache item in Redis.
- *
- * @param params - An object containing the base URL and parameters for the cache key.
- * @param value - The data to be stored in the cache item.
- * @param ttl - The time-to-live (in seconds) for the cache item. Defaults to 1000.
- *
- * @returns The cached value.
- */
 async function getOrSetCacheItem<T>(params: CacheItem, value: T, ttl?: number) {
   const cacheKey = buildCacheKey(params.base, params.params);
 
@@ -85,7 +53,6 @@ async function invalidateCache(base: string, params?: Record<string, any>) {
     return await client.del(key);
   }
 
-  // Match all keys starting with `${base}:`
   const pattern = `${base}:*`;
   const keys = await client.keys(pattern);
   if (keys.length === 0) return 0;

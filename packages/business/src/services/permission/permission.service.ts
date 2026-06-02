@@ -1,10 +1,7 @@
-import { CorePermissions } from "@/core/permission/core.permission";
-import { getPermissionManager } from "@/core/permission/manager.permission";
-import getPrismaClient from "@/util/prisma.util";
+import { CorePermissions } from "../../core/permission/core.permission";
+import { getPermissionManager } from "../../core/permission/manager.permission";
+import { getPrismaClient } from "dashbore-database";
 
-/**
- * Load all core permissions into the database.
- */
 async function loadCorePermissions() {
   console.log(`[Permission] Loading core permissions...`);
   for (const permission of CorePermissions) {
@@ -13,9 +10,6 @@ async function loadCorePermissions() {
   console.log(`[Permission] Core permissions loaded.`);
 }
 
-/**
- * Load all permissions from the database into memory.
- */
 async function loadPermissionsOnStartup() {
   console.log(`[Permission] Loading permissions from the database...`);
   const prisma = getPrismaClient();
@@ -35,9 +29,6 @@ async function loadPermissionsOnStartup() {
   );
 }
 
-/**
- * Bootstrap the permission service.
- */
 async function bootstrap() {
   await loadCorePermissions();
   await loadPermissionsOnStartup();

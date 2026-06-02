@@ -3,6 +3,8 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"],
+      "@business/*": ["../../packages/business/src/*"],
+      "@cache/*": ["../../packages/cache/src/*"],
       "@common/*": ["../../packages/common/src/*"],
       "@database/*": ["../../packages/database/src/*"]
     }

@@ -1,4 +1,4 @@
-import RedisFactory from "@/factory/redis.factory";
+import RedisFactory from "@cache/factory/redis.factory";
 import { describe, expect, test } from "bun:test";
 
 describe("Redis Factory", () => {

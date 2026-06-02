@@ -1,8 +1,5 @@
-import type { Permission } from "@database/index";
+import type { Permission } from "dashbore-database";
 
-/**
- * Core permission keys that are used in the application
- */
 enum CorePermissionKey {
   ALL = "*",
   USERS_READ = "users:read",
@@ -10,9 +7,6 @@ enum CorePermissionKey {
   USERS_DELETE = "users:delete",
 }
 
-/**
- * Core permission properties that are used in the application
- */
 const CorePermissionProperties: Record<CorePermissionKey, Permission> = {
   [CorePermissionKey.ALL]: {
     id: 1,

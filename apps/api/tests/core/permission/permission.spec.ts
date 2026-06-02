@@ -1,5 +1,5 @@
-import { CorePermissions } from "@/core/permission/core.permission";
-import { getPermissionManager } from "@/core/permission/manager.permission";
+import { CorePermissions } from "@business/core/permission/core.permission";
+import { getPermissionManager } from "@business/core/permission/manager.permission";
 import getPrismaClient from "@/util/prisma.util";
 import { describe, expect, it } from "bun:test";
 

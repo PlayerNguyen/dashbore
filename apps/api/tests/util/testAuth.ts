@@ -1,5 +1,5 @@
-import AuthService from "@/services/auth/auth.service";
-import TokenService from "@/services/token/token.service";
+import AuthService from "@business/services/auth/auth.service";
+import TokenService from "@business/services/token/token.service";
 import TestContext from "tests/test.context.spec";
 
 async function login() {

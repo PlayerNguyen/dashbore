@@ -1,4 +1,4 @@
-import TokenService from "@/services/token/token.service";
+import TokenService from "@business/services/token/token.service";
 import type { User } from "@database/index";
 import { describe, expect, it } from "bun:test";
 

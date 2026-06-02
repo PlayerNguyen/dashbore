@@ -1,7 +1,7 @@
 import { createOpenApiPathBuilder } from "@/builder/openapi/openapi.builder";
 import PaginationBuilder from "@/builder/pagination/pagination.builder";
-import RedisCache from "@/core/cache/redis.cache";
-import CorePermissionKey from "@/core/permission/core.permission";
+import RedisCache from "@cache/core/cache/redis.cache";
+import CorePermissionKey from "@business/core/permission/core.permission";
 import appFactory from "@/factory/app.factory";
 import PaginationUtil from "@/util/pagination.util";
 import getPrismaClient from "@/util/prisma.util";
