@@ -29,8 +29,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@generated/prisma/*": ["node_modules/.prisma/client/*"],
-      "@common/*": ["./node_modules/dashbore-common/src/*"]
+      "@generated/prisma/*": ["generated/prisma/*"],
+      "@common/*": ["../../packages/common/src/*"]
     }
   }
 }

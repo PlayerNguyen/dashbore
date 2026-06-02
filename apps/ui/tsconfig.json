@@ -28,8 +28,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@common/*": ["./node_modules/dashbore-common/src/*"],
-      "@prisma/generated/*": ["../api/node_modules/.prisma/client/*"]
+      "@common/*": ["../../packages/common/src/*"],
+      "@prisma/generated/*": ["../api/generated/prisma/*"]
     }
   },
   "include": ["src"]

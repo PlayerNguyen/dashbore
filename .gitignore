@@ -7,4 +7,4 @@ node_modules/
 .prisma/
 @prisma/
 
-app/generated/prisma
+apps/api/generated

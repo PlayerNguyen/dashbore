@@ -13,10 +13,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@common": path.resolve(__dirname, "./node_modules/dashbore-common/src"),
+      "@common": path.resolve(__dirname, "../../packages/common/src"),
       "@prisma/generated/*": path.resolve(
         __dirname,
-        "../api/node_modules/.prisma/client/*"
+        "../api/generated/prisma/*"
       ),
     },
   },
