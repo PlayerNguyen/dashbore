@@ -27,7 +27,7 @@
     "@hono/zod-validator": "^0.4.3",
     "@prisma/client": "^6.6.0",
     "colorette": "^2.0.20",
-    "dashbore-common": "link:dashbore-common",
+    "dashbore-common": "workspace:*",
     "hono": "^4.7.6",
     "hono-openapi": "^0.4.6",
     "jsonwebtoken": "^9.0.2",
