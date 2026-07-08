@@ -1,5 +1,9 @@
 # Dashbore — AGENTS.md
 
+> **Pull request and issue creation MUST follow templates in `.github/` — this is CRITICAL.**
+
+> **When using the `propose-plan` skill, the plan path MUST follow `plans/<dd-mm-yyyy>/hh-mm_<name>.md` — this is HIGH.**
+
 > Detailed project documentation lives in `docs/`. Read the relevant file
 > before making changes to a workspace.
 
