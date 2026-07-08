@@ -1,0 +1,56 @@
+name: Infrastructure Issue
+description: Report CI/CD, Docker, database, or deployment issues
+labels: ["infrastructure", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For issues related to CI, Docker, database, or deployment.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: What area of infrastructure is affected?
+      options:
+        - CI/CD (GitHub Actions)
+        - Docker / docker-compose
+        - Database / Prisma migrations
+        - Redis / caching
+        - Local development setup
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the issue
+      description: What happened? What did you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce this?
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Paste logs, CI output, or error messages.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant configuration
+      description: Paste any relevant config (docker-compose.yml, workflow YAML, .env snippets without secrets).
+    validations:
+      required: false
