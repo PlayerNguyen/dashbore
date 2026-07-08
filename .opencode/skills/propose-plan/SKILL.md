@@ -73,7 +73,7 @@ Present the plan and ask:
 If the user approves and asks to save the plan:
 
 1. Get current timestamp: `date +"%d-%m-%Y-%H-%M"`
-2. Create the plan file at `.opencode/plans/<dd-mm-yyyy-hh-mm>_<plan_name>.md`
+2. Create the plan file at `.opencode/plans/<dd-mm-yyyy>/hh-mm_<plan_name>.md`
 3. Use the plan content from Phase 3 as the file content
 4. Confirm the file was created
 
@@ -138,6 +138,6 @@ Does this plan look good? Should I proceed, or would you like any changes?
 
 User: Looks good, save the plan
 
-Agent: [Creates .opencode/plans/08-07-2026-15-30_mysql-to-postgresql-migration.md]
+Agent: [Creates .opencode/plans/08-07-2026/15-30_mysql-to-postgresql-migration.md]
 Plan saved. Ready to implement when you are.
 ```
