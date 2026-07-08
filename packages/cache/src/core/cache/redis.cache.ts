@@ -1,4 +1,4 @@
-import RedisFactory from "../../factory/redis.factory";
+import { RedisFactory } from "../../factory/redis.factory";
 import type { RedisClient } from "bun";
 
 let defaultRedisClient: RedisClient | undefined;

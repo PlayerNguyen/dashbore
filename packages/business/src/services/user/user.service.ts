@@ -1,4 +1,4 @@
-import CorePermissionKey from "../../core/permission/core.permission";
+import { CorePermissionKey } from "../../core/permission/core.permission";
 import { getPrismaClient } from "@dashbore/database";
 import type {
   Permission,

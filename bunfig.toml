@@ -1,3 +1,4 @@
 [test]
 
 coverageThreshold = 0.6
+elide-lines = 0

@@ -5,5 +5,6 @@ coverageThreshold = 0.6
 
 # Skip test files
 coverageSkipTestFiles = true 
+elide-lines = 0
 
 root = "tests"
