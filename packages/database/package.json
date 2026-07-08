@@ -16,7 +16,7 @@
     "seed": "prisma db seed"
   },
   "dependencies": {
-    "@prisma/adapter-mariadb": "latest",
+    "@prisma/adapter-pg": "^7.0.0",
     "@prisma/client": "^7.0.0",
     "prisma": "^7.0.0"
   },

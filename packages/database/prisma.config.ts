@@ -7,6 +7,6 @@ export default defineConfig({
     seed: "bun run prisma/seed.ts",
   },
   datasource: {
-    url: process.env.DATABASE_URL ?? "mysql://dashbore:dashbore@localhost:3306/dashbore",
+    url: process.env.DATABASE_URL ?? "postgresql://dashbore:dashbore@localhost:5432/dashbore",
   },
 });
