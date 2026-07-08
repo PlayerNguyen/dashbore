@@ -1,10 +1,12 @@
 ## Summary
 
-<!-- One-line description of what this PR does. AI: use this to generate commit messages. -->
+<!-- One-line description of what this PR does. -->
+
+## Related Issue
+
+<!-- Link the issue this PR addresses. Use "Closes #123" to auto-close on merge. -->
 
 ## Type
-
-<!-- Check one. AI: use this to determine review focus. -->
 
 - [ ] Feature
 - [ ] Bug fix
@@ -15,16 +17,15 @@
 
 ## Scope
 
-<!-- Which workspace(s) does this affect? AI: use this to determine which tests to run. -->
-
 - [ ] `dashbore-api` (`apps/api/`)
 - [ ] `dashbore-ui` (`apps/ui/`)
 - [ ] `dashbore-common` (`packages/common/`)
+- [ ] `dashbore-database` (`packages/database/`)
+- [ ] `dashbore-business` (`packages/business/`)
+- [ ] `dashbore-cache` (`packages/cache/`)
 - [ ] Root / config
 
 ## Changes
-
-<!-- Bullet list of concrete changes. AI: use this to generate review comments. -->
 
 -
 -
@@ -32,19 +33,19 @@
 
 ## Motivation
 
-<!-- Why is this change needed? Link to issue if applicable. AI: use this for context. -->
+<!-- Why is this change needed? -->
+
+## Dependencies
+
+<!-- New packages added or version bumps? List them. -->
 
 ## Testing
-
-<!-- How was this tested? AI: use this to verify coverage. -->
 
 - [ ] `bun run test:api` passes
 - [ ] `bun run test:ui` passes
 - [ ] Manual testing (describe below)
 
 ## Checklist
-
-<!-- AI: verify each item before requesting review. -->
 
 - [ ] No `console.log` left in production code
 - [ ] No secrets or keys committed
