@@ -10,19 +10,25 @@ services:
 
   # Database and adminer
   db:
-    image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dashbore
-      MYSQL_USER: dashbore
-      MYSQL_PASSWORD: dashbore
+    image: postgres:17
+    container_name: dashbore-postgres
+    restart: unless-stopped
     ports:
-      - 3306:3306
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: dashbore
+      POSTGRES_PASSWORD: dashbore
+      POSTGRES_DB: dashbore
     volumes:
-      - .config/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - .data/mysql:/var/lib/mysql
+      - .config/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - .data/postgres:/var/lib/postgresql/data
     networks:
       - dashbore-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dashbore -d dashbore"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   adminer:
     image: adminer:latest

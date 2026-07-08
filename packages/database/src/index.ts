@@ -1,11 +1,11 @@
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/client.ts";
 
 let prismaClient: PrismaClient | undefined;
 
 export function getPrismaClient() {
   if (!prismaClient) {
-    const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
+    const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
     prismaClient = new PrismaClient({
       adapter,
       omit: { user: { password: true } },

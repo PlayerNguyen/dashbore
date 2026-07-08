@@ -13,18 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      mysql:
-        image: mysql:8
+      postgres:
+        image: postgres:17
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: dashbore
+          POSTGRES_USER: dashbore
+          POSTGRES_PASSWORD: dashbore
+          POSTGRES_DB: dashbore_test
         ports:
-          - 3306:3306
+          - 5432:5432
         options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       redis:
         image: redis:7
         ports:
@@ -36,7 +37,7 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: mysql://root:root@127.0.0.1:3306/dashbore
+      DATABASE_URL: postgresql://dashbore:dashbore@127.0.0.1:5432/dashbore_test
       JWT_SECRET: supersecret
       REDIS_URL: redis://localhost:6379
 
@@ -48,10 +49,10 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Wait for MySQL to be ready
+      - name: Wait for PostgreSQL to be ready
         run: |
-          until mysqladmin ping -h 127.0.0.1 -uroot -proot --silent; do
-            echo "Waiting for MySQL..."
+          until pg_isready -h 127.0.0.1 -U dashbore; do
+            echo "Waiting for PostgreSQL..."
             sleep 3
           done
 
