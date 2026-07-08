@@ -1,16 +1,19 @@
 import { AppShell } from "@mantine/core";
 import { Outlet } from "@tanstack/react-router";
+import { useState } from "react";
 import AppHeader from "./components/AppHeader";
 import AppNavbar from "./components/AppNavbar";
 
 export default function DashboardLayout() {
+  const [compact, setCompact] = useState(false);
+
   return (
     <AppShell
       header={{ height: 40 }}
       navbar={{
-        width: 200,
+        width: compact ? 60 : 200,
         breakpoint: "sm",
-        // collapsed: { mobile: !opened },
+        collapsed: { mobile: true },
       }}
     >
       <AppShell.Header>
@@ -18,10 +21,13 @@ export default function DashboardLayout() {
       </AppShell.Header>
 
       <AppShell.Navbar>
-        <AppNavbar />
+        <AppNavbar
+          compact={compact}
+          onToggleCompact={() => setCompact((c) => !c)}
+        />
       </AppShell.Navbar>
 
-      <AppShell.Main bg={"dark.1"} p={0} mih={"100vh"}>
+      <AppShell.Main p={0} mih={"100vh"}>
         <Outlet />
       </AppShell.Main>
     </AppShell>

@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
-    <MantineProvider theme={theme}>
+    <MantineProvider theme={theme} defaultColorScheme="dark">
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
         <Toaster position="bottom-right" />
