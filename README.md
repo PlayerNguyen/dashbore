@@ -1,132 +1,165 @@
 # Dashbore
 
-A modern, intuitive, and extensible dashboard solution for data visualization and monitoring.
+A monorepo dashboard application built with Bun, Hono, React, and PostgreSQL — featuring JWT authentication, role-based access control (RBAC), Redis caching, and auto-generated OpenAPI documentation.
 
-![Dashboard Preview](preview.png)
+## Tech Stack
 
-## Overview
+| Layer | Technology |
+|---|---|
+| Runtime | [Bun](https://bun.sh) v1.2.9+ |
+| Backend | [Hono](https://hono.dev) |
+| Frontend | [React 19](https://react.dev) + [Vite](https://vitejs.dev) |
+| Database | [PostgreSQL 17](https://www.postgresql.org) via [Prisma](https://www.prisma.io) |
+| Cache | [Redis 7](https://redis.io) via Bun native client |
+| UI Library | [Mantine UI](https://mantine.dev) v7 |
+| Styling | [Tailwind CSS](https://tailwindcss.com) v4 |
+| Routing | [TanStack Router](https://tanstack.com/router) |
+| State | [Zustand](https://zustand-demo.pmnd.rs) + [TanStack React Query](https://tanstack.com/query) |
+| Validation | [Zod](https://zod.dev) |
+| Auth | JWT (HS512) via `jsonwebtoken` + `Bun.password` (bcrypt) |
+| Monorepo | Bun workspaces |
 
-Dashbore is an open-source dashboard framework designed with simplicity and extensibility in mind. It provides a beautiful, user-friendly interface for creating and managing data visualizations, making it perfect for both technical and non-technical users.
+## Project Structure
+
+```
+dashbore/
+├── apps/
+│   ├── api/                  # Hono REST API
+│   │   └── src/
+│   │       ├── builder/      # OpenAPI & pagination builders
+│   │       ├── factory/      # App factory & response helpers
+│   │       ├── middleware/    # Auth, error, OpenAPI middleware
+│   │       ├── routes/       # Auth & user routes
+│   │       └── util/         # Pagination & Prisma utilities
+│   └── ui/                   # React SPA
+│       └── src/
+│           ├── api/          # Axios client & API hooks
+│           ├── components/   # Shared UI components
+│           ├── pages/        # Login & dashboard pages
+│           ├── routes/       # TanStack Router file-based routes
+│           ├── store/        # Zustand auth store
+│           └── theme/        # Mantine theme config
+├── packages/
+│   ├── business/             # Auth, token, user & permission services
+│   ├── cache/                # Redis caching layer
+│   ├── common/               # Shared Zod schemas & REST types
+│   └── database/             # Prisma client, schema & migrations
+└── docker-compose.yml        # PostgreSQL, Redis & Adminer
+```
 
 ## Features
 
-- 🎨 **Intuitive UI**: Clean, modern interface that's easy to navigate
-- 🔌 **Extensible Architecture**: Easily add new components and data sources
-- 📊 **Multiple Visualization Types**: Support for charts, tables, and custom widgets
-- 🎯 **Responsive Design**: Works seamlessly across all devices
-- 🔄 **Real-time Updates**: Live data streaming capabilities
-- 🛠️ **Customizable Themes**: Light and dark mode support
-- 🔐 **Authentication**: Built-in user management and access control
-- 📱 **Mobile-Friendly**: Optimized for both desktop and mobile viewing
+- **JWT Authentication** — Email/password login with HS512-signed tokens
+- **Role-Based Access Control** — Granular permissions (`users:read`, `users:write`, `users:delete`) with light and strict auth middleware
+- **Redis Caching** — Generic get-or-set cache with configurable TTL and pattern-based invalidation
+- **OpenAPI / Swagger** — Auto-generated API documentation at `/swagger`
+- **Paginated Endpoints** — Standardized pagination for list queries
+- **Mantine UI** — Modern component library with dark theme, Inter font
+- **Responsive Dashboard** — AppShell layout with sidebar navigation
+- **Zod Validation** — Shared request/response schemas between API and UI
 
-## Installation
+## Prerequisites
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/dashbore.git
-cd dashbore
+- [Bun](https://bun.sh) v1.2.9+
+- [Docker](https://docs.docker.com/get-docker/) & Docker Compose
+
+## Getting Started
+
+1. **Install dependencies**
+
+   ```sh
+   bun install
+   ```
+
+2. **Start infrastructure** (PostgreSQL, Redis, Adminer)
+
+   ```sh
+   docker compose up -d
+   ```
+
+3. **Configure environment variables**
+
+   ```sh
+   cp apps/api/.env.example apps/api/.env
+   cp apps/ui/.env.example apps/ui/.env
+   ```
+
+4. **Run migrations and seed the database**
+
+   ```sh
+   bun run migrate
+   bun run seed
+   ```
+
+5. **Start development servers**
+
+   ```sh
+   bun run dev
+   ```
+
+6. **Access the application**
+
+   | Service | URL |
+   |---|---|
+   | UI | http://localhost:5173 |
+   | API | http://localhost:3000 |
+   | Swagger UI | http://localhost:3000/swagger |
+   | Adminer | http://localhost:8080 |
+
+### Default Credentials
+
+| User | Email | Password |
+|---|---|---|
+| Admin | `dashbore@test.com` | `dashbore` |
+| User | `user@test.com` | `user` |
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `bun run dev` | Start API + UI dev servers concurrently |
+| `bun run build` | Build API + UI for production |
+| `bun run test` | Run API + UI test suites |
+| `bun run migrate` | Run Prisma migrations |
+| `bun run seed` | Seed the database |
+| `bun run generate` | Generate Prisma client |
+
+## Environment Variables
+
+### API (`apps/api/.env`)
+
+| Variable | Default | Description |
+|---|---|---|
+| `DATABASE_URL` | — | PostgreSQL connection string |
+| `JWT_SECRET` | — | JWT signing secret |
+| `JWT_EXPIRATION_TIME` | `1h` | Token expiration |
+| `REDIS_URL` | `redis://localhost:6379` | Redis connection URL |
+| `CORS_ORIGIN` | `http://localhost:5173` | Allowed CORS origin |
+| `REDIS_DEFAULT_TTL` | `30000` | Default cache TTL (ms) |
+| `PORT` | `3000` | API server port |
+
+### UI (`apps/ui/.env`)
+
+| Variable | Description |
+|---|---|
+| `VITE_API_URL` | Backend API base URL (default: `http://localhost:3000`) |
+
+## Testing
+
+Tests use Bun's built-in test runner with a 60% coverage threshold.
+
+```sh
+bun run test        # Run all tests
+bun run test:api    # API tests only
+bun run test:ui     # UI tests only
 ```
 
-2. Install dependencies:
-```bash
-npm install
-```
+## CI
 
-3. Start the development server:
-```bash
-npm run dev
-```
-
-## Usage
-
-1. **Create a New Dashboard**
-```javascript
-import { Dashboard } from 'dashbore';
-
-const dashboard = new Dashboard({
-  title: 'My Dashboard',
-  theme: 'light'
-});
-```
-
-2. **Add Widgets**
-```javascript
-dashboard.addWidget({
-  type: 'chart',
-  title: 'Sales Overview',
-  data: salesData,
-  config: {
-    type: 'line',
-    options: {
-      // Chart configuration
-    }
-  }
-});
-```
-
-3. **Customize Layout**
-```javascript
-dashboard.setLayout({
-  columns: 12,
-  widgets: [
-    { id: 'sales', x: 0, y: 0, width: 6, height: 4 },
-    { id: 'revenue', x: 6, y: 0, width: 6, height: 4 }
-  ]
-});
-```
-
-## Extending Dashbore
-
-### Creating Custom Widgets
-
-```javascript
-import { Widget } from 'dashbore';
-
-class CustomWidget extends Widget {
-  constructor(config) {
-    super(config);
-    // Custom widget implementation
-  }
-  
-  render() {
-    // Custom rendering logic
-  }
-}
-```
-
-### Adding New Data Sources
-
-```javascript
-import { DataSource } from 'dashbore';
-
-class CustomDataSource extends DataSource {
-  async fetch() {
-    // Custom data fetching logic
-  }
-}
-```
-
-## Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+GitHub Actions (`.github/workflows/bun-test.yml`) runs on push/PR to `master`:
+- Spins up PostgreSQL 17 + Redis 7 services
+- Installs dependencies, runs migrations, seeds, and tests
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-- 📖 [Documentation](https://docs.dashbore.com)
-- 💬 [Discord Community](https://discord.gg/dashbore)
-- 🐛 [Issue Tracker](https://github.com/yourusername/dashbore/issues)
-
-## Acknowledgments
-
-- Thanks to all our contributors
-- Built with ❤️ by the Dashbore team
+MIT
