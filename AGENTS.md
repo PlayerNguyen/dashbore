@@ -1,5 +1,7 @@
 # Dashbore — AGENTS.md
 
+> **Pull request and issue creation MUST follow templates in `.github/` — this is CRITICAL.**
+
 > Detailed project documentation lives in `docs/`. Read the relevant file
 > before making changes to a workspace.
 

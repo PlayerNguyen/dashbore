@@ -22,13 +22,6 @@
   },
 
   "snapshot": true,
-
-  "permission": {
-    "edit": "allow",
-    "write": "allow",
-    "bash": "ask"
-  },
-
   "compaction": {
     "auto": true,
     "prune": false,
