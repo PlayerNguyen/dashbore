@@ -1,5 +1,5 @@
 import app from "@/app";
-import TokenService from "@business/services/token/token.service";
+import { TokenService } from "@business/services/token/token.service";
 import type { User } from "@database/index";
 import { beforeEach, describe, expect, it } from "bun:test";
 import { testClient } from "hono/testing";

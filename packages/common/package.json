@@ -1,6 +1,13 @@
 {
-  "name": "dashbore-common",
+  "name": "@dashbore/common",
   "module": "src/index.ts",
+  "main": "src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
   "type": "module",
   "private": true,
   "dependencies": {

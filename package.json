@@ -4,17 +4,17 @@
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "dev": "concurrently -n api,ui \"bun run dev:api\" \"bun run dev:ui\"",
-    "dev:api": "bun run --filter=dashbore-api dev",
-    "dev:ui": "bun run --filter=dashbore-ui dev",
+    "dev:api": "bun run --filter=@dashbore/api dev",
+    "dev:ui": "bun run --filter=@dashbore/ui dev",
     "build": "concurrently -n api,ui \"bun run build:api\" \"bun run build:ui\"",
-    "build:api": "bun run --filter=dashbore-api build",
-    "build:ui": "bun run --filter=dashbore-ui build",
+    "build:api": "bun run --filter=@dashbore/api build",
+    "build:ui": "bun run --filter=@dashbore/ui build",
     "test": "concurrently --raw \"bun run test:api\" \"bun run test:ui\"",
-    "test:api": "bun run --filter=dashbore-api test",
-    "test:ui": "bun run --filter=dashbore-ui test",
-    "migrate": "bun run --filter=dashbore-database migrate",
-    "seed": "bun run --filter=dashbore-database seed",
-    "generate": "bun run --filter=dashbore-database generate"
+    "test:api": "bun run --filter=@dashbore/api test",
+    "test:ui": "bun run --filter=@dashbore/ui test",
+    "migrate": "bun run --filter=@dashbore/database migrate",
+    "seed": "bun run --filter=@dashbore/database seed",
+    "generate": "bun run --filter=@dashbore/database generate"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

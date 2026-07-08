@@ -1,11 +1,18 @@
 {
-  "name": "dashbore-business",
+  "name": "@dashbore/business",
   "module": "src/index.ts",
+  "main": "src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
   "type": "module",
   "private": true,
   "dependencies": {
-    "dashbore-common": "workspace:*",
-    "dashbore-database": "workspace:*",
+    "@dashbore/common": "workspace:*",
+    "@dashbore/database": "workspace:*",
     "hono": "^4.7.6",
     "jsonwebtoken": "^9.0.2"
   },
