@@ -1,5 +1,5 @@
-import CorePermissionKey from "../../core/permission/core.permission";
-import { getPrismaClient } from "dashbore-database";
+import { CorePermissionKey } from "../../core/permission/core.permission";
+import { getPrismaClient } from "@dashbore/database";
 import type {
   Permission,
   Prisma,
@@ -7,7 +7,7 @@ import type {
   RolePermission,
   User,
   UserRole,
-} from "dashbore-database";
+} from "@dashbore/database";
 
 export type UserWithRoles = User & {
   roles: (UserRole & {
@@ -22,7 +22,7 @@ export type NormalizedUser = User & {
   roles: string[];
 };
 
-const UserService = {
+export const UserService = {
   getUserById: async (id: number, omit?: Prisma.UserSelect) => {
     const user = await getPrismaClient().user.findUnique({
       where: {
@@ -63,5 +63,3 @@ const UserService = {
     return hasPermission;
   },
 };
-
-export default UserService;

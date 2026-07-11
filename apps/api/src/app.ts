@@ -1,7 +1,7 @@
 import appFactory from "./factory/app.factory";
 import useOpenApi from "./middleware/openapi.middleware";
 
-import PermissionService from "@business/services/permission/permission.service";
+import { PermissionService } from "@business/services/permission/permission.service";
 
 import authRoute from "./routes/auth/auth.route";
 import userRoute from "./routes/users/users.route";

@@ -17,12 +17,12 @@
 
 ## Scope
 
-- [ ] `dashbore-api` (`apps/api/`)
-- [ ] `dashbore-ui` (`apps/ui/`)
-- [ ] `dashbore-common` (`packages/common/`)
-- [ ] `dashbore-database` (`packages/database/`)
-- [ ] `dashbore-business` (`packages/business/`)
-- [ ] `dashbore-cache` (`packages/cache/`)
+- [ ] `@dashbore/api` (`apps/api/`)
+- [ ] `@dashbore/ui` (`apps/ui/`)
+- [ ] `@dashbore/common` (`packages/common/`)
+- [ ] `@dashbore/database` (`packages/database/`)
+- [ ] `@dashbore/business` (`packages/business/`)
+- [ ] `@dashbore/cache` (`packages/cache/`)
 - [ ] Root / config
 
 ## Changes

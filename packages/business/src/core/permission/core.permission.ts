@@ -1,6 +1,6 @@
-import type { Permission } from "dashbore-database";
+import type { Permission } from "@dashbore/database";
 
-enum CorePermissionKey {
+export enum CorePermissionKey {
   ALL = "*",
   USERS_READ = "users:read",
   USERS_WRITE = "users:write",
@@ -29,7 +29,5 @@ const CorePermissionProperties: Record<CorePermissionKey, Permission> = {
     description: "Delete users",
   },
 };
-
-export default CorePermissionKey;
 
 export const CorePermissions = Object.values(CorePermissionProperties);

@@ -1,4 +1,4 @@
-import RedisFactory from "../../factory/redis.factory";
+import { RedisFactory } from "../../factory/redis.factory";
 import type { RedisClient } from "bun";
 
 let defaultRedisClient: RedisClient | undefined;
@@ -60,11 +60,9 @@ async function invalidateCache(base: string, params?: Record<string, any>) {
   return await client.del(...keys);
 }
 
-const RedisCache = {
+export const RedisCache = {
   getOrSetCacheItem,
   hasCacheItem,
   invalidateCache,
   getRedisClient,
 };
-
-export default RedisCache;

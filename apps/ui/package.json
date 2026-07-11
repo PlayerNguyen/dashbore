@@ -1,5 +1,5 @@
 {
-  "name": "dashbore-ui",
+  "name": "@dashbore/ui",
   "type": "module",
   "private": true,
   "scripts": {
@@ -23,7 +23,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "dashbore-common": "workspace:*",
+    "@dashbore/common": "workspace:*",
     "@mantine/colors-generator": "^7.17.4",
     "@mantine/core": "^7.17.4",
     "@mantine/form": "^7.17.4",

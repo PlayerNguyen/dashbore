@@ -9,9 +9,9 @@
 
 | package | path | stack |
 |---|---|---|
-| `dashbore-api` | `apps/api/` | Hono + Prisma (MySQL) + JWT + Redis |
-| `dashbore-ui` | `apps/ui/` | React 19 + Vite + TanStack Router + Mantine UI + Tailwind v4 + Zustand + TanStack Query |
-| `dashbore-common` | `packages/common/` | Shared Zod schemas, re-exported through `@common/index` |
+| `@dashbore/api` | `apps/api/` | Hono + Prisma (MySQL) + JWT + Redis |
+| `@dashbore/ui` | `apps/ui/` | React 19 + Vite + TanStack Router + Mantine UI + Tailwind v4 + Zustand + TanStack Query |
+| `@dashbore/common` | `packages/common/` | Shared Zod schemas, re-exported through `@common/index` |
 
 ## Installation
 
