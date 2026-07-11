@@ -1,11 +1,11 @@
-import type { User } from "dashbore-database";
+import type { User } from "@dashbore/database";
 import { HTTPException } from "hono/http-exception";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const JWT_EXPIRATION_TIME = process.env.JWT_EXPIRATION_TIME as string;
 
-const TokenService = {
+export const TokenService = {
   generateToken: async (user: User) => {
     const token = jwt.sign(
       {
@@ -37,5 +37,3 @@ const TokenService = {
     }
   },
 };
-
-export default TokenService;

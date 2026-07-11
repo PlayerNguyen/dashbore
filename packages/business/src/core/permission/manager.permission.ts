@@ -1,5 +1,5 @@
-import { getPrismaClient } from "dashbore-database";
-import type { Permission } from "dashbore-database";
+import { getPrismaClient } from "@dashbore/database";
+import type { Permission } from "@dashbore/database";
 
 class PermissionManager {
   private permissions: Map<string, Permission> = new Map();

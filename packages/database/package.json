@@ -1,5 +1,5 @@
 {
-  "name": "dashbore-database",
+  "name": "@dashbore/database",
   "module": "src/index.ts",
   "main": "src/index.ts",
   "exports": {

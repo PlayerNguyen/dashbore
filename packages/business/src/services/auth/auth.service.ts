@@ -1,7 +1,7 @@
-import { getPrismaClient } from "dashbore-database";
+import { getPrismaClient } from "@dashbore/database";
 import { HTTPException } from "hono/http-exception";
 
-const AuthService = {
+export const AuthService = {
   login: async (email: string, password: string) => {
     const user = await getPrismaClient().user.findUnique({
       where: { email },
@@ -25,5 +25,3 @@ const AuthService = {
     return user;
   },
 };
-
-export default AuthService;

@@ -13,8 +13,6 @@ const createRedisClient = (options?: Bun.RedisOptions) => {
   return new RedisClient(REDIS_URL, options);
 };
 
-const RedisFactory = {
+export const RedisFactory = {
   createRedisClient,
 };
-
-export default RedisFactory;

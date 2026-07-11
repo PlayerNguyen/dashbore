@@ -1,6 +1,6 @@
 import { CorePermissions } from "../../core/permission/core.permission";
 import { getPermissionManager } from "../../core/permission/manager.permission";
-import { getPrismaClient } from "dashbore-database";
+import { getPrismaClient } from "@dashbore/database";
 
 async function loadCorePermissions() {
   console.log(`[Permission] Loading core permissions...`);
@@ -34,8 +34,6 @@ async function bootstrap() {
   await loadPermissionsOnStartup();
 }
 
-const PermissionService = {
+export const PermissionService = {
   bootstrap,
 };
-
-export default PermissionService;

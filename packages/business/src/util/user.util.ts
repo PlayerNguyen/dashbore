@@ -18,8 +18,6 @@ async function normalizeUser(user: UserWithRoles): Promise<NormalizedUser> {
   };
 }
 
-const UserUtil = {
+export const UserUtil = {
   normalizeUser,
 };
-
-export default UserUtil;

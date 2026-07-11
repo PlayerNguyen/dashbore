@@ -9,6 +9,6 @@ bun run build:ui      # vite build
 Or target a single workspace:
 
 ```sh
-bun run --filter=dashbore-api dev
-bun run --filter=dashbore-ui test
+bun run --filter=@dashbore/api dev
+bun run --filter=@dashbore/ui test
 ```
